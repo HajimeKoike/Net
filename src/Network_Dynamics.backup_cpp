@@ -1,0 +1,40 @@
+#include "Network_Dynamics.h"
+
+void Network_Dynamics::step(){
+
+	Network old(*this);
+	old.cout_adjacent();
+	old.cout_transmission_power();
+	old.cout_infectious_period();
+	std::cin.get();
+
+	//state & parameter update
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_real_distribution<double> u(0.0,1.0);
+
+	
+	//random sort order
+	for(auto&& [node_id, node]: this->nodes){
+		//state update
+		if(node.get_state()==0){
+			for(const auto& nbd_id: node.get_adjacent()){
+				if(this->nodes.at(nbd_id).get_state()>0){
+					if(u(mt)<this->nodes.at(nbd_id).get_transmission_power()){
+						node.get_infected();
+					}
+				}
+			}
+		}else if(node.get_state()>0){
+			node.step();
+			//Recovering process
+			if(u(mt)<this->recovering){
+				node.set_state(-1);
+			}
+		}else{
+			;
+		}
+		//parameter update
+	}
+	//structure update
+}	

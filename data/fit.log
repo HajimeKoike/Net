@@ -1,0 +1,218 @@
+
+
+*******************************************************************************
+Thu Dec 12 04:32:48 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" using 1:2
+        format = x:z
+        x range restricted to [1.00000 : 40.0000]
+        #datapoints = 32
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*x^gamma
+BREAK: Need via and either parameter list or file
+
+*******************************************************************************
+Thu Dec 12 04:33:05 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" using 1:2
+        format = x:z
+        x range restricted to [1.00000 : 40.0000]
+        #datapoints = 32
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*x^gamma
+fitted parameters initialized with current variable values
+
+
+
+*******************************************************************************
+Thu Dec 12 04:35:04 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" u 1:2
+        format = x:z
+        x range restricted to [1.00000 : 40.0000]
+        #datapoints = 32
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*x^gamma
+fitted parameters initialized with current variable values
+
+
+
+*******************************************************************************
+Thu Dec 12 04:35:19 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" u 1:2
+        format = x:z
+        #datapoints = 49
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x) [1:40]
+	f(x)=a*x^gamma
+fitted parameters initialized with current variable values
+
+
+
+*******************************************************************************
+Thu Dec 12 04:35:24 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" u 1:2
+        format = x:z
+        #datapoints = 49
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*x^gamma
+fitted parameters initialized with current variable values
+
+
+
+*******************************************************************************
+Thu Dec 12 04:36:17 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" u 1:2
+        format = x:z
+        #datapoints = 49
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x) [1:40]
+	f(x)=a*x**gamma
+fitted parameters initialized with current variable values
+
+
+
+*******************************************************************************
+Thu Dec 12 04:40:14 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" u 1:2
+        format = x:z
+        x range restricted to [1.00000 : 40.0000]
+        #datapoints = 32
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=a*x**gamma
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   a             gamma        
+   0 4.8398240000e+06   0.00e+00  4.95e+01    1.000000e+00   1.000000e+00
+  32 3.3325681286e+03  -2.74e-02  4.95e-07    9.989053e+03  -2.324017e+00
+
+After 32 iterations the fit converged.
+final sum of squares of residuals : 3332.57
+rel. change during last iteration : -2.73578e-07
+
+degrees of freedom    (FIT_NDF)                        : 30
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 10.5397
+variance of residuals (reduced chisquare) = WSSR/ndf   : 111.086
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+a               = 9989.05          +/- 167.9        (1.68%)
+gamma           = -2.32402         +/- 0.02038      (0.8771%)
+
+correlation matrix of the fit parameters:
+                a      gamma  
+a               1.000 
+gamma          -0.959  1.000 
+
+
+*******************************************************************************
+Thu Dec 12 04:47:18 2019
+
+
+FIT:    data read from "ba_4000_deg.txt" u 1:2
+        format = x:z
+        x range restricted to [1.00000 : 40.0000]
+        #datapoints = 32
+        residuals are weighted equally (unit weight)
+
+function used for fitting: g(x)
+	g(x)=x**gamma
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   gamma        
+   0 4.8546595255e+06   0.00e+00  7.47e-02   -2.324017e+00
+  42 4.8374104678e+06  -2.34e-01  7.47e-02    8.652798e-01
+
+After 42 iterations the fit converged.
+final sum of squares of residuals : 4.83741e+06
+rel. change during last iteration : -2.33502e-06
+
+degrees of freedom    (FIT_NDF)                        : 31
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 395.026
+variance of residuals (reduced chisquare) = WSSR/ndf   : 156045
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+gamma           = 0.86528          +/- 1.627        (188.1%)
+
+
+*******************************************************************************
+Thu Dec 12 06:13:43 2019
+
+
+FIT:    data read from "er_4000_deg.txt"
+        format = z
+        x range restricted to [2228.00 : 2573.00]
+        #datapoints = 241
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=exp(-k)*k**k/gamma(k+1)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   k            
+   0 1.1028958027e+05   0.00e+00  1.55e-01    1.000000e+00
+  73 1.0361745641e+05  -9.44e-01  1.55e+02   -1.132873e-01
+
+After 73 iterations the fit converged.
+final sum of squares of residuals : 103617
+rel. change during last iteration : -9.44154e-06
+
+degrees of freedom    (FIT_NDF)                        : 240
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 20.7783
+variance of residuals (reduced chisquare) = WSSR/ndf   : 431.739
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+k               = -0.113287        +/- 4.717        (4164%)
+
+
+*******************************************************************************
+Thu Dec 12 06:14:56 2019
+
+
+FIT:    data read from "er_4000_deg.txt"
+        format = z
+        x range restricted to [2228.00 : 2573.00]
+        #datapoints = 241
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x)=exp(-k)*k**k/gamma(k+1)
+fitted parameters initialized with current variable values
+
+
+Current data point
+=========================
+#               = 1 out of 241
+x               = 2400           
+z               = 1              
+
+Current set of parameters
+=========================
+k               = 2400           
+
+BREAK: Undefined value during function evaluation

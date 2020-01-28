@@ -1,0 +1,25 @@
+#ifndef NETWORK_DYNAMICS_H
+#define NETWORK_DYNAMICS_H
+
+#include "com.h"
+#include "Network.h"
+
+class Network_Dynamics: public Network{
+	private:
+		double recovering;
+		void step();
+	public:
+//		int t;
+		Network_Dynamics(): Network(adj) recovering(0.0) { }
+		Network_Dynamics(const double& recovering): recovering(recovering) { }
+		void run(int T, bool record){
+			for(int t=0;t<T;t++){
+				if(record==true){
+					this->cout_state();
+				}
+				step();
+			}
+		}
+};
+
+#endif

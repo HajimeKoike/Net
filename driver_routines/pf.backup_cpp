@@ -1,0 +1,145 @@
+#include "com_driver.h"
+
+#include "com.h"
+#include "generate.h"
+#include "Node.h"
+#include "Network.h"
+#include "Network_Dynamics.h"
+
+#include "Particles.h"
+int main(){
+	/* Step 1. read network structure and construct particles*/
+	const std::string GRAPH_FILE = OUT_DIR_PATH + "ba.csv";
+	std::ifstream graph_file(GRAPH_FILE);
+	assert(!graph_file.fail());
+	std::pair<node_id,node_id> edge;
+	std::vector<std::pair<node_id,node_id> > edges;
+	while(graph_file>>edge.first>>edge.second){
+		edges.push_back(edge);
+	}
+	graph_file.close();
+	std::map<node_id,std::vector<node_id> > adjs;
+	edge_to_adj(edges,adjs);
+	Network network(adjs);
+
+	std::map<node_id,double> transmission_power;
+	std::map<node_id,int> infectious_period;
+	for (auto [node_id,node]: network.nodes){
+		node.set_transmission_power(node.get_adjacent().size()/network.size);
+		node.set_infectious_period(double(1)/double(recovering));
+	}
+	/* Step 1.5. set initial value*/
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution u(0,network.size);
+	int size=1000;
+	Particles nets(size,network);
+	for(auto [id,net]: nets.forecast){
+		net.nodes[int(u(mt))].get_infected();
+		net.cout_transmission_power();
+	}
+
+	/* Step 2. DA cycle*/
+	for(int i=0;i<1000;i++){
+		const std::string NATURE_FILE = OUT_DIR_PATH + std::to_string(i) + "nature.csv";
+		const std::string OBS_FILE = OUT_DIR_PATH + PARAM_DIR_PATH + std::to_string(i) + "obsagg.csv";
+		std::cout<<OBS_FILE<<std::endl;
+		const std::string PF_FILE = OUT_DIR_PATH + std::to_string(i) + "pf.csv";
+		std::ifstream nature_file(NATURE_FILE);
+		std::ifstream obs_file(OBS_FILE);
+		assert(!nature_file.fail() && !obs_file.fail());
+		std::ofstream fout(PF_FILE);
+		std::string nature_tmp,obs_tmp;
+		std::string nature_seq,obs_seq;
+		std::string nature_str,obs_str;
+		std::vector<state_type> nature;
+		//std::map<node_id,Node> obs;
+		std::vector<double> obs;
+
+		int Tend=10;
+
+		std::map<node_id,Node> y;
+		std::getline(obs_file,obs_tmp);
+		for(int t=0;t<Tend;t++){
+			std::cout<<"time step "<<t<<std::endl;
+			/* 1. reading data */
+			nature.clear();
+			obs.clear();
+
+			std::getline(nature_file,nature_tmp);
+			std::getline(obs_file,obs_tmp);
+			std::cout<<"tmp "<<obs_tmp<<std::endl;
+			std::cout<<std::endl;
+			std::stringstream nature_seq(nature_tmp);
+			std::stringstream obs_seq(obs_tmp);
+
+			while(std::getline(nature_seq,nature_str,',')){
+				nature.push_back(std::stoi(nature_str));
+			}
+			/*
+			int i=0;
+			while(std::getline(obs_seq,obs_str,',')){
+				Node node(i);
+				obs[i]=node;
+				obs[i].set_state(std::stoi(obs_str));
+				i++;
+			}
+			*/
+			std::getline(obs_seq,obs_str,',');
+			while(std::getline(obs_seq,obs_str,',')){
+				obs.push_back(std::stoi(obs_str));
+			}
+				
+				
+			/* 2. updating forecast */
+			std::cout<<"update"<<std::endl;
+			nets.set_obs_error(OBS_ERROR);
+			for(auto&& [id,net]: nets.forecast){
+				Network_Dynamics netdyn(net);
+				netdyn.step();
+				net=netdyn.next;
+				net.cout_state();
+			}
+			assert(!nets.forecast.empty());
+
+			/* 3. updating by PF */
+			nets.update(obs);
+			for(const auto& [id,net]: nets.forecast){
+				net.cout_state();
+			}
+			std::cout<<std::endl;
+			
+			std::vector<double> anal_agg = nets.get_analysis();
+			for(const auto& state: nature){
+				std::cout<<state<<",";
+			}
+			std::cout<<std::endl;
+			/*
+			int j=0;
+			for(const auto& [id,obs_node] : obs){
+				obs_node.cout_state();
+				j++;
+				if(j<i){
+					std::cout<<",";
+				}
+			}
+			std::cout<<std::endl;
+			*/
+			std::streambuf* strbuf;
+			strbuf=std::cout.rdbuf(fout.rdbuf());
+			int k=0;
+			for(auto state: anal_agg){
+				std::cout<<state;
+				k++;
+				if(k<anal_agg.size()) std::cout<<",";
+			}
+			std::cout<<std::endl;
+			std::cout.rdbuf(strbuf);
+		}
+		nature_file.close();
+		obs_file.close();
+		fout.close();
+	}
+
+	return 0;
+}
